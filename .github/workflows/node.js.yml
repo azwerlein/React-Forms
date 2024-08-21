@@ -22,10 +22,6 @@ jobs:
       matrix:
         node-version: [18.x, 20.x, 22.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-        
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
     - uses: actions/checkout@v4
@@ -38,19 +34,34 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: dir
+    - uses: actions/upload-artifact@master
+      with:
+        name: page
+        path: build
+        if-no-files-found: error
 
     # - run: npm test
-    # - name: Checkout
-    #   uses: actions/checkout@v4
-    - name: Setup Pages
-      uses: actions/configure-pages@v5
-    - name: Upload artifact
-      uses: actions/upload-pages-artifact@v3
-      with:
-        # Upload build folder
-        path: build
-    - name: Deploy to GitHub Pages
-      id: deployment
-      uses: actions/deploy-pages@v4
 
+  deploy:
 
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - uses: actions/download-artifact@master
+        with:
+          name: page
+          path: .
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Upload build folder
+          path: .
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
