@@ -3,9 +3,10 @@ const { Component } = require("react");
 
 class Country extends Component {
     state = {
-        name: 'United States',
-        count: 0,
+        name: this.props.name,
+        count: this.props.count,
     }
+
     render() {
         return (
             <div>
