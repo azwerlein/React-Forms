@@ -19,6 +19,9 @@ class Country extends Component {
                 <button onClick={this.increment}>
                     +
                 </button>
+                <button onClick={this.decrement}>
+                    -
+                </button>
             </div>
         );
     }
@@ -27,6 +30,14 @@ class Country extends Component {
         this.setState((prevState) => ({
             count: prevState.count + 1
         }));
+    }
+
+    decrement = () => {
+        if (this.state.count > 0) {
+            this.setState((prevState) => ({
+                count: prevState.count - 1
+            }));
+        }
     }
 }
 
