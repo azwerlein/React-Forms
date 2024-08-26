@@ -4,9 +4,9 @@ import { useState } from 'react';
 
 function App() {
   const buildCategories = (gold, silver, bronze) => [
-    {type: 'gold', count: gold},
-    {type: 'silver', count: silver},
-    {type: 'bronze', count: bronze},
+    {type: 'Gold', count: gold},
+    {type: 'Silver', count: silver},
+    {type: 'Bronze', count: bronze},
   ];
 
   const [countries, setCountries] = useState([
@@ -39,7 +39,7 @@ function App() {
             countries.reduce((a, b) => a + b.categories.reduce((c, d) => c + d.count, 0), 0)
           }
         </div>
-        <div>
+        <div className='list'>
           {
             countries.map(c =>
               <Country

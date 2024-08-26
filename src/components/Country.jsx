@@ -1,4 +1,6 @@
+import Box from '@mui/material/Box';
 import Medal from "./Medal";
+import { Divider } from '@mui/material';
 
 const { Component } = require("react");
 
@@ -22,11 +24,12 @@ class Country extends Component {
     render() {
         const {name, categories} = this.state.country;
         return (
-            <div>
+            <Box component="section" sx={{p: 2, border: 'solid 1px gray', backgroundColor: '#556067'}}>
                 <div>
                     {name}
                 </div>
-                <div>
+                <Divider></Divider>
+                <Box sx={{display: 'flex'}}>
                     {
                         categories.map(c => 
                             <Medal
@@ -37,14 +40,14 @@ class Country extends Component {
                             ></Medal>
                         )
                     }
-                </div>
+                </Box>
                 <div>
                     Total medals:
                     {
                         categories.reduce((a, b) => a + b.count, 0)
                     }
                 </div>
-            </div>
+            </Box>
         );
     }
 }
