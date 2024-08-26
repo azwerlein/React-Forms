@@ -1,43 +1,51 @@
+import Medal from "./Medal";
+
 const { Component } = require("react");
 
 
 class Country extends Component {
     state = {
-        name: this.props.name,
-        count: this.props.count,
+        country: this.props.country,
+    }
+
+    callback = (type, count) => {
+        const country = this.state.country;
+        country.categories = country.categories.map(c => {
+            if ( c.type === type) {
+              return {type: type, count: count};
+            }
+            return c;
+        });
+        this.props.callback(country);
     }
 
     render() {
+        const {name, categories} = this.state.country;
         return (
             <div>
                 <div>
-                    {this.state.name}
+                    {name}
                 </div>
                 <div>
-                    {this.state.count}
+                    {
+                        categories.map(c => 
+                            <Medal
+                                key={c.type}
+                                type={c.type}
+                                count={c.count}
+                                callback={this.callback}
+                            ></Medal>
+                        )
+                    }
                 </div>
-                <button onClick={this.increment}>
-                    +
-                </button>
-                <button onClick={this.decrement}>
-                    -
-                </button>
+                <div>
+                    Total medals:
+                    {
+                        categories.reduce((a, b) => a + b.count, 0)
+                    }
+                </div>
             </div>
         );
-    }
-
-    increment = () => {
-        this.setState((prevState) => ({
-            count: prevState.count + 1
-        }));
-    }
-
-    decrement = () => {
-        if (this.state.count > 0) {
-            this.setState((prevState) => ({
-                count: prevState.count - 1
-            }));
-        }
     }
 }
 
