@@ -39,4 +39,15 @@
 
 .list {
   display: flex;
+  flex-flow: wrap row;
+  margin: auto;
+}
+
+.country-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.new-country {
+  margin: 1.5em auto;
 }

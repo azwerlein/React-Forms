@@ -1,12 +1,13 @@
 import './App.css';
 import Country from './components/Country';
 import { useState } from 'react';
+import NewCountry from './components/NewCountry';
 
 function App() {
   const buildCategories = (gold, silver, bronze) => [
-    {type: 'Gold', count: gold},
-    {type: 'Silver', count: silver},
-    {type: 'Bronze', count: bronze},
+    { type: 'Gold', count: gold },
+    { type: 'Silver', count: silver },
+    { type: 'Bronze', count: bronze },
   ];
 
   const [countries, setCountries] = useState([
@@ -18,15 +19,25 @@ function App() {
   const updateCountry = (country) => {
     console.log(country)
     const list = countries.map(c => {
-      if ( c.id === country.id) {
+      if (c.id === country.id) {
         return country;
       }
 
       return c;
     });
+    setCountries(list);
+  }
 
-    console.log(countries)
+  const addCountry = (countryName) => {
+    const list = [...countries];
+    list.push(
+      { id: countries.length + 1, name: countryName, categories: buildCategories(0, 0, 0), }
+    )
+    setCountries(list);
+  }
 
+  const deleteCountry = (id) => {
+    const list = countries.filter(c => c.id !== id);
     setCountries(list);
   }
 
@@ -34,9 +45,13 @@ function App() {
     <div className="App">
       <header className="App-header">
         <div>
-          Total medals across all countries: 
+          Total medals across all countries:
           {
-            countries.reduce((a, b) => a + b.categories.reduce((c, d) => c + d.count, 0), 0)
+            countries.reduce((a, b) => {
+              return a + b.categories.reduce((c, d) => {
+                return c + d.count
+              }, 0)
+            }, 0)
           }
         </div>
         <div className='list'>
@@ -45,11 +60,16 @@ function App() {
               <Country
                 key={c.id}
                 country={c}
-                callback={updateCountry}
+                updateCallback={updateCountry}
+                deleteCallback={deleteCountry}
               ></Country>
             )
           }
         </div>
+        <NewCountry
+          className='new-country'
+          callback={addCountry}
+        ></NewCountry>
       </header>
     </div>
   );
