@@ -35,7 +35,7 @@ class Country extends Component {
                     <div>
                         {name}
                     </div>
-                    <Button onClick={this.deleteCallback}>
+                    <Button variant="contained" color='error' onClick={this.deleteCallback}>
                         Delete
                     </Button>
                 </div>
